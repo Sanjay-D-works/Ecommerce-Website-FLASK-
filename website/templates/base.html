@@ -55,17 +55,12 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
           <li class="nav-item mx-2" id="items">
-            
-            {% if cart | length < 1 %}
             <a class="nav-link text-grey" href="/cart"><span class="badge bg-success"></span> Cart
               <i class="fa-solid fa-cart-shopping"></i>
             </a>
-            {% else %}
             <a class="nav-link text-grey" href="/cart"><span class="badge bg-success"></span> Cart
               <i class="bi bi-{{ cart | length }}-square-fill"></i>
             </a>
-            
-            {% endif %}
             
             
           </li>
@@ -84,17 +79,15 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="profileDropdown">
 
-            
-              {% if current_user.is_authenticated %}
               <li><a class="dropdown-item" href="/profile/{{ current_user.id }}">Profile <i class="fa-solid fa-user"></i></a></li>
               <li><a class="dropdown-item" href="/orders">Orders <i class="fa-solid fa-truck-fast"></i></a></li>
               <li><a class="dropdown-item" href="/logout">Log Out <i class="fa-solid fa-right-from-bracket"></i></a></li>
 
-              {% else %}
+              
               
               <li><a class="dropdown-item" href="/login">Login <i class="fa-solid fa-right-to-bracket"></i></a></li>
 
-              {% endif %}
+              
 
             </ul>
 
@@ -127,6 +120,10 @@
         <i class="fa-sharp fa-regular fa-copyright"></i></span> 2023 All rights reserved
 
     </footer>
+
+    <script scr="{{ url_for('static', filename='css/all.min.css') }}"></script>
+    <script scr="{{ url_for('static', filename='css/bootstrap.min.css') }}"></script>
+    <script scr="{{ url_for('static', filename='css/style.css') }}"></script>
     
 </body>
 </html>
