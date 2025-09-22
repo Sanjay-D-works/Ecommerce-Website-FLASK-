@@ -11,6 +11,10 @@ class Customer(db.Model, UserMixin):
     password_hash = db.Column(db.String(150))
     date_joined = db.Column(db.DateTime(), default=datetime.utcnow)
 
+    cart_items = db.relationship('Cart', backref=db.backref('customer', lazy=True))
+    orders = db.relationship('Order', backref=db.backref('customer',lazy=True))
+
+
 
     @property
     def password(self):
@@ -25,7 +29,8 @@ class Customer(db.Model, UserMixin):
     
 
     def __str__(self):
-        return '<Customer %r>' % Customer.id #print(Customer1)
+        return f"<Customer {self.id}>"
+ #print(Customer1)
     
 
 class Product(db.Model):
@@ -38,6 +43,10 @@ class Product(db.Model):
     flash_sale = db.Column(db.Boolean, default=False)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
 
+    carts = db.relationship('Cart', backref=db.backref('product', lazy=True))
+    orders = db.relationship('Order', backref=db.backref('product', lazy=True))
+    
+
 
     def __str__(self):
         return '<Product %r>' % self.product_name
@@ -46,8 +55,16 @@ class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quantity = db.Column(db.Integer, nullable=False)
 
+    customer_link = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
+    product_link = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+
+    # customer product
+    
+
     def __str__(self):
         return '<Cart %r>' % self.id
+    
+    
     
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +72,10 @@ class Order(db.Model):
     price = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(1000), nullable=False)
     payment_id = db.Column(db.String(1000), nullable=False)
+
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
+    product_link = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    # customer
 
     def __str__(self):
         return '<Order %r>' % self.id
