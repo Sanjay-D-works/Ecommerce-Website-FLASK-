@@ -3,7 +3,7 @@ from wtforms import StringField, IntegerField, FloatField, PasswordField, EmailF
 from wtforms.validators import DataRequired, length, NumberRange
 
 
-def SingUpForm(FlaskForm):
+class SingUpForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired(), length(min=2)])
     password1 = PasswordField('Enter Your Password', validators=[DataRequired(), length(min=6)])
