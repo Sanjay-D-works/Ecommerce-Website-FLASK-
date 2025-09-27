@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect
-from .forms import LoginForm, SingUpForm
+from forms import LoginForm, SingUpForm
 from .models import Customer
 from . import db
 from flask_login import login_user, login_required, logout_user
@@ -7,7 +7,7 @@ from flask_login import login_user, login_required, logout_user
 auth = Blueprint('auth', __name__)
 
 
-@auth.route('/sign-up', ['GET', "POST"])
+@auth.route('/sign-up', ['GET', 'POST'])
 def sign_up():
     form = SingUpForm
     if form.validate_on_submit():
@@ -67,5 +67,12 @@ def login():
 def log_out():
     logout_user()
     return redirect('/')
+
+
+@auth.route('/profile/<int:customer_id>')
+@login_required
+def profile(customer_id):
+    customer = Customer.query.get(customer_id)
+    return render_template('profile.html', customer=customer)
 
 
