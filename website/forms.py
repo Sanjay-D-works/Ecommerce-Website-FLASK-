@@ -14,3 +14,11 @@ class LoginForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired()])
     password = PasswordField('Enter your Password', validators=[DataRequired()])
     submit = SubmitField('Log In')
+
+
+class PasswordChangeForm(FlaskForm):
+    current_password = PasswordField('Current Password', validators=[DataRequired(), length(min=6)])
+    new_password = PasswordField('New Password', validators=[DataRequired(), length(min=6)])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), length(min=6)])
+    change_passowrd = SubmitField('Change Password')
+    
