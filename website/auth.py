@@ -93,7 +93,7 @@ def change_password(customer_id):
                 flash('Password Upload Successfully')
                 return redirect(f'/profile/{customer.id}')
             else:
-                flash('New Passwords do not match!!')
+                flash('New Passwords do not match!! ')
         else:
             flash('Current Password is Incorrect')
 
