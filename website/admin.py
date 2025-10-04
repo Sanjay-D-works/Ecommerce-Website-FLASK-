@@ -8,6 +8,8 @@ admin = Blueprint('admin', __name__)
 @login_required
 def add_shop_items():
     if current_user.id == 1:
-        form = ShopItemForm
+        form = ShopItemForm()
+
+        return render_template('add-shop-items.html', form=form)
 
     return render_template('404.html')
