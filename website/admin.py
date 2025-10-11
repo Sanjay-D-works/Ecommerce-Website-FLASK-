@@ -1,7 +1,12 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, flash
 from flask_login import login_required, current_user
 from .forms import ShopItemForm
 from werkzeug.utils import secure_filename
+from .models import Product
+from . import db
+
+
+
 
 admin = Blueprint('admin', __name__)
 
@@ -20,6 +25,30 @@ def add_shop_items():
             file = form.product_picture.data
 
             file_name = secure_filename(file.filename)
+
+            file_path = f'./media/{file_name}'
+
+            file.save(file_path)
+
+            new_shop_item = Product()
+            new_shop_item.product_name = product_name
+            new_shop_item.current_price = current_price
+            new_shop_item.previous_price = previous_price
+            new_shop_item.in_stock = in_stock
+            new_shop_item.flash_sale = flash_sale
+
+            new_shop_item.product_picture = file_path
+
+            try:
+                db.session.add(new_shop_item)
+                db.session.commit()
+                flash(f'{product_name} added Successfully')
+                print('Product Added')
+                return render_template('add-shop-items.html', form=form)
+            except Exception as ex:
+                print(ex)
+            flash("I'm not Added")
+
 
         return render_template('add-shop-items.html', form=form)
 
